@@ -1,12 +1,14 @@
-export const INCREMENT = 'INCREMENT'; // reducer側でも利用するのでココでexportする。（正直好みの問題）
-export const DECREMENT = 'DECREMENT'; // reducer側でも利用するのでココでexportする。（正直好みの問題）
+import axios from 'axios';
 
-//ActionCreatorを定義。viewで利用する。
-export const increment = () => ({ 
-    type: INCREMENT
-});
+export const READ_EVENTS = 'READ_EVENTS';
 
-//ActionCreatorを定義。viewで利用する。
-export const decrement = () => ({
-    type: DECREMENT
-});
+const ROOT_URL = 'https://udemy-utils.herokuapp.com/api/v1';
+const QUERYSTRING = '?token=token123';
+
+// ActionCreatorを定義。viewで利用する。
+// redux-thunk と axiosにより、非同期通信。
+export const readEvents = () => async dispatch => { 
+    console.log(" ActionCreator \"readEvents\" is called");
+    const response = await axios.get(`${ROOT_URL}/events${QUERYSTRING}`);
+    dispatch({ type: READ_EVENTS, response });
+};
